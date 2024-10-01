@@ -1,14 +1,13 @@
 {
   "name": "firebase-blog",
   "version": "0.0.0",
-  "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:firebase-blog": "node dist/firebase-blog/server/server.mjs"
-  },
+ "scripts": {
+  "ng": "ng",
+  "build": "ng build",
+  "build:ssr": "ng build && ng run firebase-blog:server",  
+  "serve:ssr": "node dist/firebase-blog/server/main.js",  
+  "build:deploy": "npm run build:ssr && npm run build:server && firebase deploy"  
+},
   "private": true,
   "dependencies": {
     "@angular/animations": "^18.2.0",
