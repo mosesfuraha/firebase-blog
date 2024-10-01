@@ -16,7 +16,6 @@ export class ExpensesService {
     this.expensesRef = db.list(this.dbPath);
   }
 
-  // Fix here: getExpense should accept a string key
   getExpense(key: string) {
     return this.db.object<IExpense>(`${this.dbPath}/${key}`);
   }

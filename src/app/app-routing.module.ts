@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ExpensesComponent } from './pages/expenses/expenses.component';
-import { ExpenseFormComponent } from './pages/expense-form/expense-form.component';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
-  { path: '', component: ExpensesComponent },
-  { path: 'form', component: ExpenseFormComponent },
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
+  { path: 'home', component: HomeComponent },
 ];
 
 @NgModule({
