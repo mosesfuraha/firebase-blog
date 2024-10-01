@@ -1,0 +1,25 @@
+nav {
+  background-color: #333;
+  padding: 1rem;
+}
+
+ul.navbar {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+ul.navbar li {
+  position: relative;
+}
+
+ul.navbar li a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 15px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+}
