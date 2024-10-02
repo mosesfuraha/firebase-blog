@@ -59,7 +59,7 @@ export class AuthService {
         return Promise.reject(error);
       });
 
-    return from(promise);
+    return from(promise); // return the promise to an observable
   }
 
   isAuthenticated(): Observable<boolean> {

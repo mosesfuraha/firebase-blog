@@ -58,23 +58,23 @@ export class LoginComponent implements OnInit {
       },
     });
   }
-  loginWithGoogle(): void {
-    this.loading = true;
-    this.authService.createAcountWithGoogle().subscribe({
-      next: () => {
-        this.loading = false;
-        this.router.navigateByUrl('/home');
-      },
-      error: (err) => {
-        this.loading = false;
-        if (err.message === 'Google login canceled by the user.') {
-          this.errorMessage = 'Google login canceled. Please try again.';
-        } else {
-          this.errorMessage = err.message || 'Google login failed';
-        }
-      },
-    });
-  }
+    loginWithGoogle(): void {
+      this.loading = true;
+      this.authService.createAcountWithGoogle().subscribe({
+        next: () => {
+          this.loading = false;
+          this.router.navigateByUrl('/home');
+        },
+        error: (err) => {
+          this.loading = false;
+          if (err.message === 'Google login canceled by the user.') {
+            this.errorMessage = 'Google login canceled. Please try again.';
+          } else {
+            this.errorMessage = err.message || 'Google login failed';
+          }
+        },
+      });
+    }
 
   handleAuthError(errorCode: string): void {
     switch (errorCode) {

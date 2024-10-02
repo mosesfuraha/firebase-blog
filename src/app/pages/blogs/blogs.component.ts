@@ -5,10 +5,12 @@ import { Blog } from '../../models/common.model';
 @Component({
   selector: 'app-blogs',
   templateUrl: './blogs.component.html',
-  styleUrl: './blogs.component.css',
+  styleUrls: ['./blogs.component.css'],
 })
 export class BlogsComponent {
   blogs: Blog[] = [];
+  showSingleBlog: boolean = false;
+  selectedBlog: Blog | null = null;
 
   constructor(private blogService: BlogService) {}
 
@@ -22,4 +24,15 @@ export class BlogsComponent {
       },
     });
   }
+
+  showBlogDetails(blog: Blog): void {
+    this.selectedBlog = blog;
+    this.showSingleBlog = true;
+  }
+
+  backToBlogs(): void {
+    this.showSingleBlog = false;
+    this.selectedBlog = null;
+  }
 }
+
