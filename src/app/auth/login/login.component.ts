@@ -89,9 +89,6 @@ export class LoginComponent implements OnInit {
         this.errorMessage =
           'Invalid email address. Please enter a valid email.';
         break;
-      case 'auth/too-many-requests':
-        this.errorMessage = 'Too many attempts. Please try again later.';
-        break;
       default:
         this.errorMessage = 'Incorrect Password or Email. Please try again !';
         break;

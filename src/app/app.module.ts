@@ -11,10 +11,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { appConfig } from './app.config';
 import { CommonModule } from '@angular/common';
 import { HomeComponent } from './pages/home/home.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { BlogsComponent } from './pages/blogs/blogs.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
-  imports: [BrowserModule, AppRoutingModule, ReactiveFormsModule, CommonModule],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    FooterComponent,
+    HeaderComponent,
+    BlogsComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
+    CommonModule,
+    HttpClientModule,
+  ],
   providers: [provideClientHydration(), ...appConfig.providers],
   bootstrap: [AppComponent],
 })

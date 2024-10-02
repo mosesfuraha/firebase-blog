@@ -1,0 +1,47 @@
+[
+  {
+    "imageUrl": "https://firebase.google.com/static/images/brand-guidelines/logo-vertical.png",
+    "title": "Getting Started with Firebase: An Overview",
+    "description": "Firebase is a comprehensive app development platform that helps developers build and scale their applications quickly, with minimal need for backend development. In this guide, we explore the key features of Firebase, such as its real-time database, authentication services, and cloud storage. Firebase also provides hosting and machine learning capabilities, making it a one-stop solution for both web and mobile applications. This overview will help you understand how Firebase can streamline the development process, reduce infrastructure costs, and scale your app without the headache of managing servers.",
+    "category": "Introduction",
+    "date": "2024-09-25",
+    "authorName": "Jane Doe",
+    "authorId": "author_001"
+  },
+  {
+    "imageUrl": "https://s3.amazonaws.com/cdn.hotglue.xyz/images/logos/firebase-auth.png",
+    "title": "Mastering Firebase Authentication",
+    "description": "Firebase Authentication offers a robust way to manage user access with several authentication methods such as email/password, phone number, and third-party providers like Google, Facebook, and GitHub. This blog post dives deep into Firebase Authentication, showing how it can be used to streamline user login, registration, and session management. We’ll cover step-by-step integration for email/password and Google sign-in, explore managing user sessions securely, and discuss how Firebase Authentication handles verification, error handling, and multi-factor authentication, providing a seamless user experience while maintaining security.",
+    "category": "Authentication",
+    "date": "2024-09-30",
+    "authorName": "John Smith",
+    "authorId": "author_002"
+  },
+  {
+    "imageUrl": "https://i.ytimg.com/vi/QcsAb2RR52c/maxresdefault.jpg",
+    "title": "Guide to Firebase Firestore: Real-time Database",
+    "description": "Firebase Firestore is a flexible, scalable NoSQL cloud database that stores and syncs data in real time across multiple clients. This article explores how Firestore's document and collection structure allows for easy data modeling and querying. We dive into Firestore’s real-time syncing capabilities, enabling developers to build collaborative apps with real-time updates, and its offline persistence, which ensures users can continue to work even when they lose network access. Learn best practices for structuring your database, writing efficient queries, and handling large datasets in Firestore.",
+    "category": "Firestore",
+    "date": "2024-10-05",
+    "authorName": "Emily Johnson",
+    "authorId": "author_003"
+  },
+  {
+    "imageUrl": "https://media.dev.to/cdn-cgi/image/width=1280,height=720,fit=cover,gravity=auto,format=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fi%2Fto6bvecp005a1u92g3dj.png",
+    "title": "Automating with Firebase Cloud Functions",
+    "description": "Firebase Cloud Functions is a serverless environment that enables you to run backend code in response to events triggered by Firebase features or HTTPS requests. This blog will guide you through setting up your first Cloud Functions to handle tasks such as sending push notifications, processing user data, or executing business logic in a scalable and secure way. We’ll also cover how Cloud Functions integrate with other Firebase products like Firestore, Authentication, and Analytics, allowing you to automate workflows with minimal effort.",
+    "category": "Cloud Functions",
+    "date": "2024-10-10",
+    "authorName": "Michael Lee",
+    "authorId": "author_004"
+  },
+  {
+    "imageUrl": "https://miro.medium.com/v2/resize:fit:1024/1*ZVqAwMcUHqUdQF5u5tuqhw.png",
+    "title": "Understanding Firebase Analytics for Data-Driven Development",
+    "description": "Firebase Analytics is a free app measurement solution that helps you understand how users interact with your iOS, Android, or web app. In this article, we delve into Firebase Analytics’ core features, which enable you to track user behavior, events, and app performance metrics. Learn how to set up tracking for key user interactions such as page views, button clicks, and in-app purchases, and explore how this data can help you make informed decisions about your app’s design and functionality. By the end of this guide, you’ll have a strong grasp of Firebase Analytics and how to leverage its reporting tools to drive user engagement and retention.",
+    "category": "Analytics",
+    "date": "2024-10-15",
+    "authorName": "Sophia Martinez",
+    "authorId": "author_005"
+  }
+]
