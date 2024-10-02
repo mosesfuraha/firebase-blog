@@ -25,6 +25,11 @@ export class SignupComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.buildSignupForm();
+    this.listenForValueChanges();
+  }
+
+  buildSignupForm(): void {
     this.signupForm = this.fb.group(
       {
         email: ['', [Validators.required, Validators.email]],
@@ -33,7 +38,9 @@ export class SignupComponent implements OnInit {
       },
       { validator: this.passwordsMatchValidator }
     );
+  }
 
+  listenForValueChanges(): void {
     this.signupForm.valueChanges.subscribe(() => {
       this.errorMessage = null;
     });
@@ -69,6 +76,21 @@ export class SignupComponent implements OnInit {
       error: (err) => {
         this.loading = false;
         this.errorMessage = err.message;
+      },
+    });
+  }
+
+  signupWithGoogle(): void {
+    this.loading = true;
+    this.authService.createAcountWithGoogle().subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('');
+      },
+      error: (err) => {
+        this.loading = false;
+        this.errorMessage =
+          err.message || 'An error occurred with Google login';
       },
     });
   }

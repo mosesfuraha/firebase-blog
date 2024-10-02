@@ -24,7 +24,6 @@ export class LoginComponent implements OnInit {
     this.listenForValueChanges();
   }
 
-  // Build the login form
   buildLoginForm(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -32,17 +31,15 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Listen for value changes to reset error messages
   listenForValueChanges(): void {
     this.loginForm.valueChanges.subscribe(() => {
       this.errorMessage = null;
     });
   }
 
-  // Normal function to handle login when button is clicked
   login(): void {
     if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched(); // Show validation errors
+      this.loginForm.markAllAsTouched();
       return;
     }
 
@@ -57,17 +54,54 @@ export class LoginComponent implements OnInit {
       },
       error: (err) => {
         this.loading = false;
-        this.errorMessage = err.message || 'An error occurred during login';
+        this.handleAuthError(err.code);
+      },
+    });
+  }
+  loginWithGoogle(): void {
+    this.loading = true;
+    this.authService.createAcountWithGoogle().subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigateByUrl('/home');
+      },
+      error: (err) => {
+        this.loading = false;
+        if (err.message === 'Google login canceled by the user.') {
+          this.errorMessage = 'Google login canceled. Please try again.';
+        } else {
+          this.errorMessage = err.message || 'Google login failed';
+        }
       },
     });
   }
 
-  // Navigate to sign-up page
+  handleAuthError(errorCode: string): void {
+    switch (errorCode) {
+      case 'auth/wrong-password':
+        this.errorMessage = 'Incorrect password. Please try again.';
+        break;
+      case 'auth/user-not-found':
+        this.errorMessage =
+          'No user found with this email. Please check the email address.';
+        break;
+      case 'auth/invalid-email':
+        this.errorMessage =
+          'Invalid email address. Please enter a valid email.';
+        break;
+      case 'auth/too-many-requests':
+        this.errorMessage = 'Too many attempts. Please try again later.';
+        break;
+      default:
+        this.errorMessage = 'Incorrect Password or Email. Please try again !';
+        break;
+    }
+  }
+
   navigateToSignUp(): void {
     this.router.navigateByUrl('signup');
   }
 
-  // Getters for form controls to use in the template
   get email() {
     return this.loginForm.get('email');
   }

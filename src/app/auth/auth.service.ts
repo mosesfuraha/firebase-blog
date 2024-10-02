@@ -6,6 +6,8 @@ import {
   signOut,
   onAuthStateChanged,
   User,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from '@angular/fire/auth';
 import { from, Observable, BehaviorSubject } from 'rxjs';
 
@@ -14,7 +16,7 @@ import { from, Observable, BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
-  private loggedIn = new BehaviorSubject<boolean>(false);
+  private readonly loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor() {
     onAuthStateChanged(this.firebaseAuth, (user) => {
@@ -39,6 +41,24 @@ export class AuthService {
     ).then(() => {
       this.loggedIn.next(true);
     });
+    return from(promise);
+  }
+
+  createAcountWithGoogle(): Observable<void> {
+    const provider = new GoogleAuthProvider();
+    const promise = signInWithPopup(this.firebaseAuth, provider)
+      .then(() => {
+        this.loggedIn.next(true);
+      })
+      .catch((error) => {
+        if (error.code === 'auth/popup-closed-by-user') {
+          return Promise.reject(
+            new Error('Google login canceled by the user.')
+          );
+        }
+        return Promise.reject(error);
+      });
+
     return from(promise);
   }
 
