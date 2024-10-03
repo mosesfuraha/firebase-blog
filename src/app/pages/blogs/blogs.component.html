@@ -6,7 +6,7 @@
 
     <div
       *ngIf="blogs.length > 0"
-      class="first-blog flex items-center mb-10 ml-14"
+      class="first-blog relative flex items-center mb-10 ml-14"
     >
       <img
         [src]="blogs[0].imageUrl"
@@ -34,13 +34,42 @@
           Read More
         </button>
       </div>
+
+      <!-- More options button -->
+      <button
+        (click)="toggleOptions(blogs[0])"
+        class="absolute top-0 right-2 p-1 text-gray-400 hover:text-white focus:outline-none"
+      >
+        <span class="material-symbols-outlined">more_vert</span>
+      </button>
+
+      <!-- Edit/Delete Menu -->
+      <div
+        *ngIf="selectedBlog === blogs[0] && showOptions"
+        class="absolute top-10 right-2 w-32 bg-[#10141E] text-gray-300 rounded-lg shadow-md z-10"
+      >
+        <ul>
+          <li
+            class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+            (click)="editBlog(blogs[0])"
+          >
+            Edit
+          </li>
+          <li
+            class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+            (click)="deleteBlog(blogs[0])"
+          >
+            Delete
+          </li>
+        </ul>
+      </div>
     </div>
 
     <h2 class="text-white font-semibold text-lg mb-4 ml-14">All Blogs</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 ml-14">
       <div
         *ngFor="let blog of blogs.slice(1)"
-        class="blog-card bg-[#161D2F] p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+        class="relative blog-card bg-[#161D2F] p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
       >
         <img
           [src]="blog.imageUrl"
@@ -64,6 +93,35 @@
         >
           Read More
         </button>
+
+        <!-- More options button -->
+        <button
+          (click)="toggleOptions(blog)"
+          class="absolute top-2 right-2 p-1 text-gray-400 hover:text-white focus:outline-none"
+        >
+          <span class="material-symbols-outlined">more_vert</span>
+        </button>
+
+        <!-- Edit/Delete Menu -->
+        <div
+          *ngIf="selectedBlog === blog && showOptions"
+          class="absolute top-10 right-2 w-32 bg-[#10141E] text-gray-300 rounded-lg shadow-md z-10"
+        >
+          <ul>
+            <li
+              class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+              (click)="editBlog(blog)"
+            >
+              Edit
+            </li>
+            <li
+              class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+              (click)="deleteBlog(blog)"
+            >
+              Delete
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
