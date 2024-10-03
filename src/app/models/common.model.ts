@@ -5,6 +5,8 @@ export interface IExpense {
   price: string;
 }
 export interface Blog {
+  key:string
+  id:string
   imageUrl: string;
   title: string;
   description: string;

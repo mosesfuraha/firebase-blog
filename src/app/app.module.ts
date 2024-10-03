@@ -16,6 +16,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { BlogsComponent } from './pages/blogs/blogs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
+import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
     HeaderComponent,
     BlogsComponent,
     SingleBlogComponent,
+    CreateBlogComponent,
   ],
   imports: [
     BrowserModule,

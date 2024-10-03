@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../models/common.model';
 
@@ -7,7 +7,7 @@ import { Blog } from '../../models/common.model';
   templateUrl: './blogs.component.html',
   styleUrls: ['./blogs.component.css'],
 })
-export class BlogsComponent {
+export class BlogsComponent implements OnInit {
   blogs: Blog[] = [];
   showSingleBlog: boolean = false;
   selectedBlog: Blog | null = null;
@@ -35,4 +35,3 @@ export class BlogsComponent {
     this.selectedBlog = null;
   }
 }
-

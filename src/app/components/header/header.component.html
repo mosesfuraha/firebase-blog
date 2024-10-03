@@ -28,8 +28,8 @@
       >Blogs</a
     >
     <a
-      routerLink="/about-us"
-      class="text-white hover:text-[#FC4747] transition duration-300"
+      (click)="openCreateBlogModal()"
+      class="text-white hover:text-[#FC4747] cursor-pointer transition duration-300"
       >Create Blog</a
     >
     <button
@@ -37,5 +37,14 @@
     >
       Sign out
     </button>
+  </div>
+</div>
+
+<div
+  *ngIf="isModalOpen"
+  class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
+>
+  <div class="w-[100%]   rounded-lg">
+    <app-create-blog (closeModal)="closeCreateBlogModal()"></app-create-blog>
   </div>
 </div>

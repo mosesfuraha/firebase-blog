@@ -22,45 +22,61 @@
 
   <p class="text-lg text-gray-300 mb-6">{{ blog.description }}</p>
 
-  <!-- Interaction Section for Comments, Likes, Dislike, and Favorites -->
   <div
     class="flex justify-between items-center mt-6 border-t border-gray-600 pt-4"
   >
-    <!-- Like, Dislike, Favorite Buttons -->
     <div class="flex space-x-6">
       <button
         class="flex items-center text-gray-400 hover:text-white focus:outline-none"
+        (click)="toggleLike()"
       >
-        <span class="material-symbols-outlined mr-2">thumb_up</span>
-        <span class="text-sm">Like</span>
-      </button>
-
-      <!-- Dislike Button -->
-      <button
-        class="flex items-center text-gray-400 hover:text-white focus:outline-none"
-      >
-        <span class="material-symbols-outlined mr-2">thumb_down</span>
-        <span class="text-sm">Dislike</span>
+        <span class="material-symbols-outlined mr-2">
+          {{ liked ? "thumb_up" : "thumb_up_off_alt" }}
+        </span>
+        <span class="text-sm">{{ liked ? "Liked" : "Like" }}</span>
       </button>
 
       <button
         class="flex items-center text-gray-400 hover:text-white focus:outline-none"
+        (click)="toggleDislike()"
       >
-        <span class="material-symbols-outlined mr-2">favorite</span>
-        <span class="text-sm">Favorite</span>
+        <span class="material-symbols-outlined mr-2">
+          {{ disliked ? "thumb_down" : "thumb_down_off_alt" }}
+        </span>
+        <span class="text-sm">{{ disliked ? "Disliked" : "Dislike" }}</span>
       </button>
     </div>
 
-    <!-- Comment Input -->
     <div class="flex items-center w-2/3">
       <input
+        formControlName="comment"
         type="text"
         placeholder="Write a comment..."
         class="bg-[#161D2F] border border-gray-500 text-white rounded-full px-4 py-2 focus:outline-none w-full"
       />
-      <button class="ml-3 text-[#FC4747] hover:text-white focus:outline-none">
+      <button
+        class="ml-3 text-[#FC4747] hover:text-white focus:outline-none"
+        (click)="addComment()"
+      >
         <span class="material-symbols-outlined">send</span>
       </button>
+    </div>
+  </div>
+
+  <div class="comments mt-6 border-t border-gray-600 pt-4">
+    <h3 class="text-xl font-bold mb-4">Comments</h3>
+
+    <div *ngFor="let comment of comments" class="mb-4">
+      <div class="text-sm text-gray-400 mb-1">
+        <span>{{ comment.author }}</span>
+        <span class="mx-2">|</span>
+        <span>{{ comment.date | date : "mediumDate" }}</span>
+      </div>
+      <p class="text-gray-300">{{ comment.content }}</p>
+    </div>
+
+    <div *ngIf="comments.length === 0" class="text-gray-500">
+      No comments yet. Be the first to comment!
     </div>
   </div>
 </div>
