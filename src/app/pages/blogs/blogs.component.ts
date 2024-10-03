@@ -11,7 +11,9 @@ export class BlogsComponent {
   blogs: Blog[] = [];
   showSingleBlog: boolean = false;
   selectedBlog: Blog | null = null;
-  showOptions: boolean = false; // To track if dropdown is open
+  showOptions: boolean = false;
+  isEditMode: boolean = false;
+  blogToEdit: Blog | null = null;
 
   constructor(private blogService: BlogService) {}
 
@@ -46,8 +48,9 @@ export class BlogsComponent {
   }
 
   editBlog(blog: Blog): void {
-    console.log('Editing blog:', blog);
-
+    this.isEditMode = true;
+    this.blogToEdit = blog;
+    this.openCreateModal(blog);
     this.showOptions = false;
   }
 
@@ -59,7 +62,6 @@ export class BlogsComponent {
         .deleteBlog(blog.id)
         .then(() => {
           console.log('Blog deleted successfully');
-
           this.blogs = this.blogs.filter((b) => b.id !== blog.id);
           this.showOptions = false;
         })
@@ -68,6 +70,27 @@ export class BlogsComponent {
         });
     } else {
       console.error('Blog ID not found, cannot delete blog');
+    }
+  }
+
+  openCreateModal(blog: Blog | null = null): void {}
+
+  handleBlogSubmit(blog: Blog): void {
+    if (this.isEditMode && this.blogToEdit) {
+      this.blogService
+        .updateBlog(this.blogToEdit.id, blog)
+        .then(() => {
+          console.log('Blog updated successfully');
+          this.blogToEdit = null;
+          this.isEditMode = false;
+        })
+        .catch((error) => {
+          console.error('Error updating blog:', error);
+        });
+    } else {
+      this.blogService.addBlog(blog).then(() => {
+        console.log('Blog created successfully');
+      });
     }
   }
 }
