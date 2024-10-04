@@ -8,6 +8,7 @@ import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
+  updateProfile, // Import to update profile details like displayName
 } from '@angular/fire/auth';
 import { from, Observable, BehaviorSubject } from 'rxjs';
 
@@ -24,12 +25,27 @@ export class AuthService {
     });
   }
 
-  register(email: string, password: string): Observable<void> {
+  // Register method now takes an additional `username` parameter
+  register(
+    email: string,
+    password: string,
+    username: string
+  ): Observable<void> {
     const promise = createUserWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
-    ).then(() => {});
+    )
+      .then((userCredential) => {
+        // Set the displayName (username) after the user is created
+        return updateProfile(userCredential.user, {
+          displayName: username,
+        });
+      })
+      .then(() => {
+        console.log('User registered with username:', username);
+      });
+
     return from(promise);
   }
 

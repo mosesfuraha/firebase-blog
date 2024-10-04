@@ -33,9 +33,10 @@
       >Create Blog</a
     >
     <button
+      (click)="navigateToAuth()"
       class="bg-[#fa4b31] text-white py-1 px-6 rounded-full hover:bg-white hover:text-[#161D2F] transition duration-300"
     >
-      Sign out
+      Sign In
     </button>
   </div>
 </div>
@@ -44,7 +45,7 @@
   *ngIf="isModalOpen"
   class="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
 >
-  <div class="w-[100%]   rounded-lg">
+  <div class="w-[100%] rounded-lg">
     <app-create-blog (closeModal)="closeCreateBlogModal()"></app-create-blog>
   </div>
 </div>

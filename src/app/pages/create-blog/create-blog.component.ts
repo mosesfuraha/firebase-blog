@@ -2,6 +2,8 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../models/common.model';
+import { AuthService } from '../../auth/auth.service';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-blog',
@@ -15,20 +17,30 @@ export class CreateBlogComponent implements OnInit {
 
   blogForm: FormGroup;
   isEditMode: boolean = false;
+  currentUser: any = null;
 
-  constructor(private fb: FormBuilder, private blogService: BlogService) {
+  constructor(
+    private fb: FormBuilder,
+    private blogService: BlogService,
+    private authService: AuthService
+  ) {
     this.blogForm = this.fb.group({
       title: ['', Validators.required],
       imageUrl: ['', Validators.required],
       description: ['', [Validators.required, Validators.minLength(20)]],
       category: ['', Validators.required],
       date: ['', Validators.required],
-      authorName: ['', Validators.required],
-      authorId: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
+    this.authService
+      .getCurrentUser()
+      .pipe(take(1))
+      .subscribe((user) => {
+        this.currentUser = user;
+      });
+
     if (this.blogToEdit) {
       this.isEditMode = true;
       this.blogForm.patchValue(this.blogToEdit);
@@ -47,6 +59,11 @@ export class CreateBlogComponent implements OnInit {
 
     const blog: Blog = this.blogForm.value;
     blog.date = new Date().toISOString();
+
+    if (this.currentUser) {
+      blog.authorName = this.currentUser.displayName || 'Anonymous';
+      blog.authorId = this.currentUser.uid;
+    }
 
     if (this.isEditMode && this.blogToEdit) {
       this.blogService

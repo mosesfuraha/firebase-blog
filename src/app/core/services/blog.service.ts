@@ -3,8 +3,8 @@ import {
   AngularFirestore,
   AngularFirestoreCollection,
 } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
-import { Blog } from '../../models/common.model';
+import { map, Observable } from 'rxjs';
+import { Blog, Comment as BlogComment } from '../../models/common.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +12,7 @@ import { Blog } from '../../models/common.model';
 export class BlogService {
   private readonly blogCollection: AngularFirestoreCollection<Blog>;
   private readonly blogCollectionPath = 'blogs';
+  private readonly commentsCollection = 'comments';
 
   constructor(private firestore: AngularFirestore) {
     this.blogCollection = firestore.collection<Blog>(this.blogCollectionPath);
@@ -36,5 +37,31 @@ export class BlogService {
 
   deleteBlog(id: string): Promise<void> {
     return this.blogCollection.doc(id).delete();
+  }
+  getCommentsForBlog(blogId: string): Observable<BlogComment[]> {
+    return this.firestore
+      .collection<BlogComment>(this.commentsCollection, (ref) =>
+        ref.where('blogId', '==', blogId)
+      )
+      .valueChanges()
+      .pipe(
+        map((comments) => {
+          return comments.map((comment) => ({
+            ...comment,
+            content: comment.content,
+            authorName: comment.authorName,
+            date: comment.date,
+            blogId: comment.blogId,
+          }));
+        })
+      );
+  }
+
+  addCommentToBlog(comment: BlogComment): Promise<void> {
+    const commentId = this.firestore.createId();
+    return this.firestore
+      .collection(this.commentsCollection)
+      .doc(commentId)
+      .set(comment);
   }
 }

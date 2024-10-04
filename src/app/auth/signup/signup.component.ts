@@ -32,6 +32,7 @@ export class SignupComponent implements OnInit {
   buildSignupForm(): void {
     this.signupForm = this.fb.group(
       {
+        username: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]],
         repeatPassword: ['', [Validators.required, Validators.minLength(6)]],
@@ -64,14 +65,14 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    const { email, password } = this.signupForm.getRawValue();
+    const { username, email, password } = this.signupForm.getRawValue();
     this.loading = true;
     this.errorMessage = null;
 
-    this.authService.register(email, password).subscribe({
+    this.authService.register(email, password, username).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('auth');
       },
       error: (err) => {
         this.loading = false;
@@ -85,7 +86,7 @@ export class SignupComponent implements OnInit {
     this.authService.createAcountWithGoogle().subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('auth');
       },
       error: (err) => {
         this.loading = false;
@@ -96,7 +97,11 @@ export class SignupComponent implements OnInit {
   }
 
   navigateToLogin(): void {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('auth');
+  }
+
+  get username() {
+    return this.signupForm.get('username');
   }
 
   get email() {

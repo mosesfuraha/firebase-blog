@@ -4,10 +4,10 @@ import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
-  { path: 'home', component: HomeComponent },
+  { path: '', component: HomeComponent },
 ];
 
 @NgModule({

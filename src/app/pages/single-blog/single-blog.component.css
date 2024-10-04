@@ -1,0 +1,19 @@
+/* Custom scrollbar styles */
+.comments::-webkit-scrollbar {
+  width: 8px;
+}
+
+.comments::-webkit-scrollbar-track {
+  background: #2a2e37; /* Scroll track background color */
+  border-radius: 4px;
+}
+
+.comments::-webkit-scrollbar-thumb {
+  background-color: #fa4b31; /* Scroll thumb color */
+  border-radius: 10px;
+  border: 2px solid #2a2e37; /* Border around the thumb */
+}
+
+.comments::-webkit-scrollbar-thumb:hover {
+  background-color: #ff6347; /* Change color when hovering over scrollbar */
+}

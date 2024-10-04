@@ -38,6 +38,28 @@
         <form [formGroup]="signupForm">
           <div class="mb-4">
             <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="w-full p-3 bg-transparent border-b border-gray-500 focus:outline-none focus:ring-0 focus:border-blue-500 text-white placeholder-gray-400"
+              placeholder="Username"
+            />
+            <div
+              *ngIf="username?.invalid && username?.touched"
+              class="text-red-500 text-sm mt-1"
+              style="min-height: 24px"
+            >
+              <small *ngIf="username?.errors?.['required']"
+                >Username is required.</small
+              >
+              <small *ngIf="username?.errors?.['minlength']"
+                >Username must be at least 3 characters long.</small
+              >
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <input
               type="email"
               id="email"
               formControlName="email"
