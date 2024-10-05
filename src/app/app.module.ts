@@ -35,7 +35,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register('manifest.js', {
       enabled: !isDevMode(),
 
       registrationStrategy: 'registerWhenStable:30000',
