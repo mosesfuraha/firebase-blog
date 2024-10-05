@@ -64,4 +64,21 @@ export class BlogService {
       .doc(commentId)
       .set(comment);
   }
+
+  deleteComment(commentId: string): Promise<void> {
+    return this.firestore
+      .collection(this.commentsCollection)
+      .doc(commentId)
+      .delete();
+  }
+
+  updateComment(
+    commentId: string,
+    updatedComment: Partial<BlogComment>
+  ): Promise<void> {
+    return this.firestore
+      .collection(this.commentsCollection)
+      .doc(commentId)
+      .update(updatedComment);
+  }
 }

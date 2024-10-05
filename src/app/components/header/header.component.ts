@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   isModalOpen = false;
+  isMenuOpen = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -37,7 +38,11 @@ export class HeaderComponent {
   closeCreateBlogModal(): void {
     this.isModalOpen = false;
   }
+
   navigateToAuth(): void {
     this.router.navigate(['auth']);
+  }
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 }

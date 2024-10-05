@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Blog, Comment as BlogComment } from '../../models/common.model';
 import { BlogService } from '../../core/services/blog.service';
+
 import { FormControl } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { AuthService } from '../../auth/auth.service';
+import { MetaService } from '../../core/meta.service';
 
 @Component({
   selector: 'app-single-blog',
@@ -22,12 +24,18 @@ export class SingleBlogComponent {
 
   constructor(
     private blogService: BlogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private metaService: MetaService
   ) {}
 
   ngOnInit(): void {
     if (this.blog) {
-      // Fetch comments for the blog
+      this.metaService.setMetaTags(
+        this.blog.title,
+        this.blog.description,
+        this.blog.imageUrl
+      );
+
       this.blogService
         .getCommentsForBlog(this.blog.id)
         .subscribe((comments) => {
@@ -35,13 +43,16 @@ export class SingleBlogComponent {
         });
     }
 
-    // Fetch the logged-in user's name
     this.authService
       .getCurrentUser()
       .pipe(take(1))
       .subscribe((user) => {
         this.loggedInUser = user?.displayName || 'Anonymous';
       });
+  }
+
+  ngOnDestroy(): void {
+    this.metaService.clearMetaTags();
   }
 
   onBack(): void {

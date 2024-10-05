@@ -6,30 +6,34 @@
 
     <div
       *ngIf="blogs.length > 0"
-      class="first-blog relative flex items-center mb-10 ml-14"
+      class="first-blog relative flex flex-col md:flex-row items-start md:items-center mb-10 ml-4 sm:ml-8 md:ml-14"
     >
       <img
         [src]="blogs[0].imageUrl"
         alt="{{ blogs[0].title }}"
-        class="w-1/4 h-auto rounded-lg shadow-md object-cover"
+        class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 h-auto rounded-lg shadow-md object-cover mb-4 md:mb-0"
       />
 
-      <div class="ml-14 flex flex-col justify-between max-w-lg">
-        <div class="text-sm text-gray-400 mb-2">
+      <div
+        class="ml-0 sm:ml-6 md:ml-10 lg:ml-14 flex flex-col justify-between max-w-full sm:max-w-md md:max-w-lg"
+      >
+        <div class="text-xs sm:text-sm text-gray-400 mb-2">
           <span>{{ blogs[0].authorName }}</span>
           <span class="mx-2">|</span>
           <span>{{ blogs[0].date | date : "mediumDate" }}</span>
         </div>
 
-        <h2 class="text-2xl font-bold text-white mb-4">{{ blogs[0].title }}</h2>
+        <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-white mb-4">
+          {{ blogs[0].title }}
+        </h2>
 
-        <p class="text-gray-400 text-base mb-4">
+        <p class="text-gray-400 text-sm sm:text-base mb-4">
           {{ blogs[0].description | slice : 0 : 350 }}...
         </p>
 
         <button
           (click)="showBlogDetails(blogs[0])"
-          class="text-[#fa4b31] border border-[#fa4b31] px-4 py-2 rounded-full font-medium hover:bg-[#fa4b31] hover:text-white transition duration-300 ease-in-out w-full"
+          class="text-[#fa4b31] border border-[#fa4b31] px-4 py-2 rounded-full font-medium hover:bg-[#fa4b31] hover:text-white transition duration-300 ease-in-out w-full sm:w-3/4 md:w-1/2"
         >
           Read More
         </button>
@@ -44,17 +48,17 @@
 
       <div
         *ngIf="selectedBlog === blogs[0] && showOptions"
-        class="absolute top-10 right-2 w-32 bg-[#10141E] text-gray-300 rounded-lg shadow-md z-10"
+        class="absolute top-10 right-2 w-28 sm:w-32 bg-[#10141E] text-gray-300 rounded-lg shadow-md z-10"
       >
         <ul>
           <li
-            class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+            class="px-3 sm:px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
             (click)="editBlog(blogs[0])"
           >
             Edit
           </li>
           <li
-            class="px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
+            class="px-3 sm:px-4 py-2 hover:bg-[#1F2937] cursor-pointer"
             (click)="deleteBlog(blogs[0])"
           >
             Delete
@@ -64,10 +68,12 @@
     </div>
 
     <h2 class="text-white font-semibold text-lg mb-4 ml-14">All Blogs</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 ml-14">
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-sm:w-full gap-8 lg:ml-14"
+    >
       <div
         *ngFor="let blog of blogs.slice(1)"
-        class="relative blog-card bg-[#161D2F] p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow"
+        class="relative blog-card bg-[#161D2F] p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow sm:w-full"
       >
         <img
           [src]="blog.imageUrl"

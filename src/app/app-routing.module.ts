@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
+import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
 
 const routes: Routes = [
   {
@@ -8,6 +9,7 @@ const routes: Routes = [
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   { path: '', component: HomeComponent },
+  { path: 'blog/:blogId', component: SingleBlogComponent },
 ];
 
 @NgModule({

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import {
   BrowserModule,
   provideClientHydration,
@@ -17,6 +17,7 @@ import { BlogsComponent } from './pages/blogs/blogs.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
 import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,11 @@ import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [provideClientHydration(), ...appConfig.providers],
   bootstrap: [AppComponent],
