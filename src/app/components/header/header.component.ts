@@ -11,9 +11,17 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   isModalOpen = false;
-  isMenuOpen = false;
+  loggedInUser: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.authService.getCurrentUser().subscribe((user) => {
+      if (user) {
+        this.loggedInUser = user.displayName || user.email;
+      }
+    });
+  }
 
   openCreateBlogModal(): void {
     this.authService.isAuthenticated().subscribe((isLoggedIn) => {
@@ -42,7 +50,15 @@ export class HeaderComponent {
   navigateToAuth(): void {
     this.router.navigate(['auth']);
   }
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+
+  navigateToProfile(): void {
+    this.router.navigate(['profile']);
+  }
+
+  getInitials(name: string): string {
+    const [firstName, lastName] = name.split(' ');
+    return `${firstName?.charAt(0) || ''}${
+      lastName?.charAt(0) || ''
+    }`.toUpperCase();
   }
 }

@@ -5,7 +5,7 @@
       alt="Firebase Logo"
       class="w-10 h-10 mr-4"
     />
-    <h1 class="text-white text-lg md:text md:w-[240px] font-bold  max-sm:hidden">
+    <h1 class="text-white text-lg md:text md:w-[240px] font-bold max-sm:hidden">
       Firebase Blog Community
     </h1>
   </div>
@@ -20,12 +20,23 @@
       class="text-white hover:text-[#FC4747] cursor-pointer transition duration-300"
       >Create Blog</a
     >
-    <button
-      (click)="navigateToAuth()"
-      class="bg-[#fa4b31] text-white py-1 px-6 rounded-full hover:bg-white hover:text-[#161D2F] transition duration-300"
-    >
-      Sign In
-    </button>
+    <ng-container *ngIf="loggedInUser; else signInButton">
+      <div
+        class="flex items-center justify-center w-12 h-12 border-2 border-[#FA4B31] text-[#ffffff] rounded-full bg-transparent text-lg font-bold cursor-pointer hover:bg-[#FA4B31] hover:text-white transition duration-300"
+        (click)="navigateToProfile()"
+      >
+        {{ getInitials(loggedInUser) }}
+      </div>
+    </ng-container>
+
+    <ng-template #signInButton>
+      <button
+        (click)="navigateToAuth()"
+        class="border-2 border-[#fa4b31] text-[#fa4b31] py-1 px-6 rounded-full hover:bg-[#fa4b31] hover:text-white hover:border-transparent transition duration-300 bg-transparent"
+      >
+        Sign In
+      </button>
+    </ng-template>
   </div>
 </div>
 
