@@ -2,76 +2,98 @@
 
 This project was generated with Angular CLI version 18.2.0.
 
+## Deployed Version
+
+You can access the deployed version of this application at: [https://crud-learn-b8dac.web.app/](https://crud-learn-b8dac.web.app/)
+
 ## Key Features
 
 1. **Server-Side Rendering (SSR) with Angular Universal**
 
-   - The app utilizes **Angular Universal** to pre-render pages on the server, providing better performance and improved SEO. SSR ensures that search engines can crawl the page content effectively, leading to higher search rankings and better user experience on slow networks.
+   - The app utilizes **Angular Universal** to pre-render pages on the server, providing better performance and improved SEO.
    - This improves Time-to-First-Byte (TTFB) and makes the application accessible even to users with slow connections.
 
 2. **SEO Optimization**
 
-   - The project includes a service for managing **meta tags**, which dynamically updates the metadata such as page titles, descriptions, and structured data for each blog post.
-   - Structured data follows **JSON-LD** format, which helps search engines understand the content better and display rich results (like blog previews) in search results.
+   - Includes a service for managing **meta tags**, which dynamically updates metadata for each blog post.
+   - Structured data follows **JSON-LD** format for better search engine understanding.
 
 3. **Progressive Web App (PWA) Support**
 
-   - This app is fully capable of functioning as a **PWA**, providing users with a near-native app experience, including:
-     - **Offline access**: Previously viewed blog posts are accessible even when the user is offline.
-     - **Add to Home Screen**: Users can install the app on their devices, creating a shortcut for quick access.
-     - **Service Worker**: A service worker caches static assets, API responses, and provides seamless offline experiences. It ensures users can still navigate through previously loaded content without an active internet connection.
+   - Fully capable of functioning as a **PWA**, providing:
+     - **Offline access**: Previously viewed blog posts are accessible offline.
+     - **Add to Home Screen**: Users can install the app on their devices.
+     - **Service Worker**: Caches static assets and API responses for seamless offline experiences.
 
 4. **Responsive Design**
-   - The design has been optimized for both desktop and mobile users. It uses **Tailwind CSS** utilities for flexibility in handling different screen sizes, ensuring a responsive layout on all devices.
+   - Optimized for both desktop and mobile users using **Tailwind CSS** utilities.
+
+5. **User Interaction Features**
+   - **View Blogs**: Users can browse and read all published blog posts.
+   - **Like System**: Users can like blog posts to show appreciation.
+   - **Commenting System**: Users can leave comments on blog posts, fostering community engagement.
+   - **User-specific Content Management**:
+     - Users can create their own blog posts.
+     - Users can edit and delete only the blog posts they have created.
+     - Users cannot modify or delete posts created by others.
 
 ## Development Server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`.
 
-To test the app on your phone and make it accessible on your local network:
+To test on your local network:
 
 1. Find your computer's IP address on your local network.
-2. Run `ng serve --host 0.0.0.0 --disable-host-check` to start the server and make it accessible on your local network.
+2. Run `ng serve --host 0.0.0.0 --disable-host-check`.
 3. On your phone, navigate to `http://<your-computer-ip>:4200`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. This command also ensures that the Service Worker is generated for PWA functionality in the production build.
+Run `ng build` to build the project. Build artifacts will be stored in the `dist/` directory.
 
 ## Service Worker and Offline Access
 
-The app includes a **service worker** configuration that pre-caches important assets such as the index page, styles, and JavaScript files. Additionally, blog data is cached after the first load, ensuring the content is accessible offline. Dynamic API responses are stored temporarily for offline usage and are refreshed whenever the user goes back online.
+The app includes a **service worker** configuration for asset caching and offline functionality.
 
 ## Testing on Mobile Devices
 
-To test the app on your mobile device:
-
 1. Ensure your phone and computer are on the same Wi-Fi network.
-2. Run the development server with network access (see "Development Server" section).
-3. On your phone, open a web browser and navigate to the IP address and port where the app is running.
-4. Test the responsiveness, PWA features, and offline functionality.
+2. Run the development server with network access.
+3. On your phone, open a web browser and navigate to the app's address.
+4. Test responsiveness, PWA features, and offline functionality.
 
 ## Installing the PWA on Your Device
 
-To install the app on your mobile device:
-
-1. Open the app in your mobile browser (Chrome for Android or Safari for iOS).
-2. For Android:
-   - Tap the three-dot menu in Chrome.
-   - Select "Add to Home screen".
-3. For iOS:
-
-   - Tap the share button in Safari.
-   - Scroll down and tap "Add to Home Screen".
-
-4. Follow the on-screen prompts to complete the installation.
-
-You should now see the app icon on your home screen, allowing you to launch it like any other installed app.
+1. Open the app in your mobile browser.
+2. For Android: Tap the three-dot menu in Chrome and select "Add to Home screen".
+3. For iOS: Tap the share button in Safari and select "Add to Home Screen".
+4. Follow on-screen prompts to complete installation.
 
 ## Scripts
 
-Add these scripts to your `package.json` file for easier testing and deployment:
+Add these scripts to your `package.json`:
 
-Use `npm run start:local-network` to start the server for testing on your local network, including mobile devices.
+```json
+"scripts": {
+  "ng": "ng",
+  "build": "ng build",
+  "build:ssr": "ng build && ng run firebase-blog:server",
+  "serve:ssr": "node dist/firebase-blog/server/main.js",
+  "build:deploy": "npm run build:ssr && npm run build:server && firebase deploy",
+  "start:local-network": "ng serve --host 0.0.0.0 --disable-host-check"
+}
+```
 
-Remember to always test your PWA thoroughly on various devices and network conditions before deploying to production.
+- Use `npm run start:local-network` to start the server for local network testing.
+- Use `npm run build:ssr` to build the project for server-side rendering.
+- Use `npm run serve:ssr` to serve the server-side rendered application locally.
+- Use `npm run build:deploy` to build and deploy the application to Firebase.
+
+## User Guidelines
+
+- All users can view, like, and comment on any blog post.
+- Users must create an account to publish their own blog posts.
+- Users can only edit or delete blog posts they have created.
+- Respect community guidelines when commenting or creating posts.
+
+Remember to thoroughly test all features, especially user-specific functionalities, on various devices and network conditions before deploying to production.

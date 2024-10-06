@@ -18,6 +18,7 @@ export class BlogsComponent {
   showOptions: boolean = false;
   isEditMode: boolean = false;
   blogToEdit: Blog | null = null;
+  loading = true;
 
   constructor(
     private blogService: BlogService,
@@ -28,9 +29,11 @@ export class BlogsComponent {
     this.blogService.getAllBlogs().subscribe({
       next: (data) => {
         this.blogs = data;
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error fetching blogs:', err);
+        this.loading = false;
       },
     });
   }
@@ -56,17 +59,17 @@ export class BlogsComponent {
 
   editBlog(blog: Blog): void {
     this.authService
-      .isAuthenticated()
+      .getCurrentUser()
       .pipe(take(1))
-      .subscribe((isLoggedIn) => {
-        if (isLoggedIn) {
+      .subscribe((user) => {
+        if (user && user.uid === blog.authorId) {
           this.isEditMode = true;
           this.blogToEdit = blog;
           this.openCreateModal(blog);
           this.showOptions = false;
         } else {
           Toastify({
-            text: 'Please sign in to edit this blog.',
+            text: 'You can only edit blogs you created.',
             duration: 3000,
             close: true,
             gravity: 'top',
@@ -82,41 +85,36 @@ export class BlogsComponent {
 
   deleteBlog(blog: Blog): void {
     this.authService
-      .isAuthenticated()
+      .getCurrentUser()
       .pipe(take(1))
-      .subscribe((isLoggedIn) => {
-        if (isLoggedIn) {
-          console.log('Deleting blog:', blog);
+      .subscribe((user) => {
+        if (user && user.uid === blog.authorId) {
+          this.blogService
+            .deleteBlog(blog.id)
+            .then(() => {
+              console.log('Blog deleted successfully');
+              this.blogs = this.blogs.filter((b) => b.id !== blog.id);
+              this.showOptions = false;
 
-          if (blog.id) {
-            this.blogService
-              .deleteBlog(blog.id)
-              .then(() => {
-                console.log('Blog deleted successfully');
-                this.blogs = this.blogs.filter((b) => b.id !== blog.id);
-                this.showOptions = false;
-
-                Toastify({
-                  text: 'Blog deleted successfully.',
-                  duration: 3000,
-                  close: true,
-                  gravity: 'top',
-                  position: 'right',
-                  stopOnFocus: true,
-                  style: {
-                    background: '#28a745',
-                  },
-                }).showToast();
-              })
-              .catch((error) => {
-                console.error('Error deleting blog:', error);
-              });
-          } else {
-            console.error('Blog ID not found, cannot delete blog');
-          }
+              Toastify({
+                text: 'Blog deleted successfully.',
+                duration: 3000,
+                close: true,
+                gravity: 'top',
+                position: 'right',
+                stopOnFocus: true,
+                style: {
+                  background: '#28a745',
+                },
+              }).showToast();
+            })
+            .catch((error) => {
+              console.error('Error deleting blog:', error);
+            });
         } else {
+          // Show error if the user is not the creator
           Toastify({
-            text: 'Please sign in to delete this blog.',
+            text: 'You can only delete blogs you created.',
             duration: 3000,
             close: true,
             gravity: 'top',

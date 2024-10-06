@@ -21,30 +21,30 @@
       "updateMode": "prefetch",
       "resources": {
         "files": [
-          "/**/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
+          "/**/*.svg",
+          "/**/*.cur",
+          "/**/*.jpg",
+          "/**/*.jpeg",
+          "/**/*.png",
+          "/**/*.apng",
+          "/**/*.webp",
+          "/**/*.avif",
+          "/**/*.gif",
+          "/**/*.otf",
+          "/**/*.ttf",
+          "/**/*.woff",
+          "/**/*.woff2"
         ]
       }
-    },
-    {
-      "name": "api",
-      "installMode": "lazy",
-      "updateMode": "prefetch",
-      "urls": [
-        {
-          "pattern": "https://your-api-url.com/api/blogs",
-          "maxSize": 10485760,
-          "cacheConfig": {
-            "maxAge": "6h",
-            "maxEntries": 100
-          }
-        }
-      ]
     }
   ],
   "dataGroups": [
     {
       "name": "blog-api-data",
-      "urls": ["/api/blogs", "https://your-api-url.com/api/blogs/**"],
+      "urls": [
+        "https://your-api-url.com/api/blogs",
+        "https://your-api-url.com/api/blogs/**"
+      ],
       "cacheConfig": {
         "strategy": "freshness",
         "maxSize": 50,

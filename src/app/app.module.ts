@@ -18,6 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
 import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BlogsComponent,
     SingleBlogComponent,
     CreateBlogComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

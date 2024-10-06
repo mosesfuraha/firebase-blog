@@ -3,6 +3,7 @@ import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import { AuthService } from '../../auth/auth.service';
 import { Router } from '@angular/router';
+import { User } from '@angular/fire/auth'; // If using Firebase Auth
 
 @Component({
   selector: 'app-header',
@@ -11,14 +12,16 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent {
   isModalOpen = false;
-  loggedInUser: string | null = null;
+  loggedInUser: User | null = null;
+  isDropdownOpen = false;
+  isProfileVisible = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.authService.getCurrentUser().subscribe((user) => {
       if (user) {
-        this.loggedInUser = user.displayName || user.email;
+        this.loggedInUser = user;
       }
     });
   }
@@ -47,15 +50,29 @@ export class HeaderComponent {
     this.isModalOpen = false;
   }
 
+  toggleDropdown(): void {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  toggleProfile(): void {
+    this.isProfileVisible = !this.isProfileVisible;
+  }
+
   navigateToAuth(): void {
     this.router.navigate(['auth']);
   }
 
-  navigateToProfile(): void {
-    this.router.navigate(['profile']);
+  logout(): void {
+    this.authService.logout().then(() => {
+      this.loggedInUser = null;
+      this.isDropdownOpen = false;
+      this.isProfileVisible = false;
+      this.router.navigate(['auth']);
+    });
   }
 
-  getInitials(name: string): string {
+  getInitials(user: User): string {
+    const name = user.displayName || user.email || '';
     const [firstName, lastName] = name.split(' ');
     return `${firstName?.charAt(0) || ''}${
       lastName?.charAt(0) || ''

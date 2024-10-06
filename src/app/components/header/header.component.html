@@ -21,11 +21,20 @@
       >Create Blog</a
     >
     <ng-container *ngIf="loggedInUser; else signInButton">
-      <div
-        class="flex items-center justify-center w-12 h-12 border-2 border-[#FA4B31] text-[#ffffff] rounded-full bg-transparent text-lg font-bold cursor-pointer hover:bg-[#FA4B31] hover:text-white transition duration-300"
-        (click)="navigateToProfile()"
-      >
-        {{ getInitials(loggedInUser) }}
+      <div class="relative">
+        <div
+          class="flex items-center justify-center w-12 h-12 border-2 border-[#FA4B31] text-[#ffffff] rounded-full bg-transparent text-lg font-bold cursor-pointer hover:bg-[#FA4B31] hover:text-white transition duration-300"
+          (click)="toggleProfile()"
+        >
+          {{ getInitials(loggedInUser) }}
+        </div>
+
+        <div
+          *ngIf="isProfileVisible"
+          class="absolute top-full mt-2 right-0  bg-[#10141e91] rounded-lg shadow-lg py-4 z-50"
+        >
+          <app-profile></app-profile>
+        </div>
       </div>
     </ng-container>
 

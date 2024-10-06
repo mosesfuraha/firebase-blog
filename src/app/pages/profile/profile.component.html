@@ -1,0 +1,32 @@
+<div
+  *ngIf="loggedInUser; else notLoggedIn"
+  class="max-w-lg mx-auto p-6 bg-gray-800 text-white rounded-lg shadow-lg"
+>
+  <h2 class="text-3xl font-semibold mb-4 text-center">User Profile</h2>
+
+  <div class="mb-4">
+    <p class="text-lg">
+      <strong class="font-bold">Name:</strong> {{ loggedInUser.displayName }}
+    </p>
+    <p class="text-lg">
+      <strong class="font-bold">Email:</strong> {{ loggedInUser.email }}
+    </p>
+  </div>
+
+  <button
+    (click)="logout()"
+    class="mt-6 w-full py-2 px-4 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors"
+    [disabled]="isLoggingOut"
+  >
+    {{ isLoggingOut ? "Logging out..." : "Logout" }}
+  </button>
+</div>
+
+<ng-template #notLoggedIn>
+  <div
+    class="max-w-lg mx-auto p-6 bg-red-100 text-gray-700 rounded-lg shadow-lg"
+  >
+    <p class="text-lg font-semibold text-center">You are not logged in.</p>
+    <p class="text-center">Please log in to view your profile information.</p>
+  </div>
+</ng-template>

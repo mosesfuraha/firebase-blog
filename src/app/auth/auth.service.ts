@@ -75,15 +75,15 @@ export class AuthService {
         return Promise.reject(error);
       });
 
-    return from(promise); // return the promise to an observable
+    return from(promise);
   }
 
   isAuthenticated(): Observable<boolean> {
     return this.loggedIn.asObservable();
   }
 
-  logout(): void {
-    signOut(this.firebaseAuth).then(() => {
+  logout(): Promise<void> {
+    return signOut(this.firebaseAuth).then(() => {
       this.loggedIn.next(false);
     });
   }

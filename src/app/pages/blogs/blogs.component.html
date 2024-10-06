@@ -1,4 +1,11 @@
 <div class="mx-auto py-4">
+  <div *ngIf="loading" class="flex justify-center mb-4">
+    <div class="loading-dots">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
   <div *ngIf="!showSingleBlog">
     <h2 class="text-white font-semibold text-lg mb-4 ml-14">
       Recent Added Blog
