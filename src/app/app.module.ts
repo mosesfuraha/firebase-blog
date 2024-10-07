@@ -19,6 +19,7 @@ import { SingleBlogComponent } from './pages/single-blog/single-blog.component';
 import { CreateBlogComponent } from './pages/create-blog/create-blog.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { AngularFireAnalyticsModule } from '@angular/fire/compat/analytics';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,8 @@ import { ProfileComponent } from './pages/profile/profile.component';
     ReactiveFormsModule,
     CommonModule,
     HttpClientModule,
+    AngularFireAnalyticsModule,
+
     ServiceWorkerModule.register('manifest.js', {
       enabled: !isDevMode(),
 

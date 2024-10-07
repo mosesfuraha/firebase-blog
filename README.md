@@ -26,9 +26,11 @@ You can access the deployed version of this application at: [https://crud-learn-
      - **Service Worker**: Caches static assets and API responses for seamless offline experiences.
 
 4. **Responsive Design**
+
    - Optimized for both desktop and mobile users using **Tailwind CSS** utilities.
 
 5. **User Interaction Features**
+
    - **View Blogs**: Users can browse and read all published blog posts.
    - **Like System**: Users can like blog posts to show appreciation.
    - **Commenting System**: Users can leave comments on blog posts, fostering community engagement.
@@ -36,6 +38,16 @@ You can access the deployed version of this application at: [https://crud-learn-
      - Users can create their own blog posts.
      - Users can edit and delete only the blog posts they have created.
      - Users cannot modify or delete posts created by others.
+
+6. **Analytics Integration**
+   - Utilizes **Angular Fire Analytics** to track user interactions and app usage.
+   - Key events tracked include:
+     - Viewing all blogs
+     - Viewing individual blog posts
+     - Editing blogs
+     - Deleting blogs
+     - Creating new blogs
+   - This data can be used to gain insights into user behavior and improve the application.
 
 ## Development Server
 
@@ -95,5 +107,3 @@ Add these scripts to your `package.json`:
 - Users must create an account to publish their own blog posts.
 - Users can only edit or delete blog posts they have created.
 - Respect community guidelines when commenting or creating posts.
-
-Remember to thoroughly test all features, especially user-specific functionalities, on various devices and network conditions before deploying to production.

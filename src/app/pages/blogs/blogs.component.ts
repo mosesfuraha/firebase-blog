@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BlogService } from '../../core/services/blog.service';
 import { Blog } from '../../models/common.model';
 import { AuthService } from '../../auth/auth.service';
+import { AngularFireAnalytics } from '@angular/fire/compat/analytics';
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 import { take } from 'rxjs/operators';
@@ -22,7 +23,8 @@ export class BlogsComponent {
 
   constructor(
     private blogService: BlogService,
-    private authService: AuthService
+    private authService: AuthService,
+    private analytics: AngularFireAnalytics
   ) {}
 
   ngOnInit(): void {
@@ -30,6 +32,10 @@ export class BlogsComponent {
       next: (data) => {
         this.blogs = data;
         this.loading = false;
+
+        this.analytics.logEvent('view_all_blogs', {
+          num_blogs: data.length,
+        });
       },
       error: (err) => {
         console.error('Error fetching blogs:', err);
@@ -41,6 +47,12 @@ export class BlogsComponent {
   showBlogDetails(blog: Blog): void {
     this.selectedBlog = blog;
     this.showSingleBlog = true;
+
+    this.analytics.logEvent('view_blog', {
+      blog_id: blog.id,
+      blog_title: blog.title,
+      author_id: blog.authorId,
+    });
   }
 
   backToBlogs(): void {
@@ -67,6 +79,12 @@ export class BlogsComponent {
           this.blogToEdit = blog;
           this.openCreateModal(blog);
           this.showOptions = false;
+
+          this.analytics.logEvent('edit_blog', {
+            blog_id: blog.id,
+            blog_title: blog.title,
+            author_id: blog.authorId,
+          });
         } else {
           Toastify({
             text: 'You can only edit blogs you created.',
@@ -96,6 +114,13 @@ export class BlogsComponent {
               this.blogs = this.blogs.filter((b) => b.id !== blog.id);
               this.showOptions = false;
 
+              // Log the event for deleting a blog
+              this.analytics.logEvent('delete_blog', {
+                blog_id: blog.id,
+                blog_title: blog.title,
+                author_id: blog.authorId,
+              });
+
               Toastify({
                 text: 'Blog deleted successfully.',
                 duration: 3000,
@@ -112,7 +137,6 @@ export class BlogsComponent {
               console.error('Error deleting blog:', error);
             });
         } else {
-          // Show error if the user is not the creator
           Toastify({
             text: 'You can only delete blogs you created.',
             duration: 3000,
@@ -144,6 +168,13 @@ export class BlogsComponent {
                 this.blogToEdit = null;
                 this.isEditMode = false;
 
+                // Log the event for updating a blog
+                this.analytics.logEvent('update_blog', {
+                  blog_id: blog.id,
+                  blog_title: blog.title,
+                  author_id: blog.authorId,
+                });
+
                 Toastify({
                   text: 'Blog updated successfully.',
                   duration: 3000,
@@ -163,7 +194,13 @@ export class BlogsComponent {
             this.blogService.addBlog(blog).then(() => {
               console.log('Blog created successfully');
 
-              // Show success notification
+              // Log the event for creating a new blog
+              this.analytics.logEvent('create_blog', {
+                blog_id: blog.id,
+                blog_title: blog.title,
+                author_id: blog.authorId,
+              });
+
               Toastify({
                 text: 'Blog created successfully.',
                 duration: 3000,
