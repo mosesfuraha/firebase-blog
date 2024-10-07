@@ -52,11 +52,6 @@ export class CreateBlogComponent implements OnInit {
   }
 
   submit(): void {
-    if (this.blogForm.invalid) {
-      console.log('Form is invalid');
-      return;
-    }
-
     const blog: Blog = this.blogForm.value;
     blog.date = new Date().toISOString();
 
