@@ -8,24 +8,32 @@ import {
   User,
   GoogleAuthProvider,
   signInWithPopup,
-  updateProfile, // Import to update profile details like displayName
+  updateProfile,
 } from '@angular/fire/auth';
 import { from, Observable, BehaviorSubject } from 'rxjs';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   firebaseAuth = inject(Auth);
+  analytics = inject(Analytics);
   private readonly loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor() {
     onAuthStateChanged(this.firebaseAuth, (user) => {
       this.loggedIn.next(!!user);
+      if (user) {
+        logEvent(this.analytics, 'user_logged_in', {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        });
+      }
     });
   }
 
-  // Register method now takes an additional `username` parameter
   register(
     email: string,
     password: string,
@@ -37,34 +45,56 @@ export class AuthService {
       password
     )
       .then((userCredential) => {
-        // Set the displayName (username) after the user is created
         return updateProfile(userCredential.user, {
           displayName: username,
         });
       })
       .then(() => {
         console.log('User registered with username:', username);
+
+        // Log a 'sign_up' event in Analytics
+        logEvent(this.analytics, 'sign_up', {
+          method: 'email',
+          email: email,
+          username: username,
+        });
       });
 
     return from(promise);
   }
 
+  // Login method with analytics
   login(email: string, password: string): Observable<void> {
     const promise = signInWithEmailAndPassword(
       this.firebaseAuth,
       email,
       password
-    ).then(() => {
+    ).then((userCredential) => {
       this.loggedIn.next(true);
+
+      // Log a 'login' event in Analytics
+      logEvent(this.analytics, 'login', {
+        method: 'email',
+        uid: userCredential.user.uid,
+        email: email,
+      });
     });
     return from(promise);
   }
 
+  // Google sign-in method with analytics
   createAcountWithGoogle(): Observable<void> {
     const provider = new GoogleAuthProvider();
     const promise = signInWithPopup(this.firebaseAuth, provider)
-      .then(() => {
+      .then((result) => {
         this.loggedIn.next(true);
+
+        // Log a 'login' event for Google sign-in in Analytics
+        logEvent(this.analytics, 'login', {
+          method: 'google',
+          uid: result.user.uid,
+          email: result.user.email,
+        });
       })
       .catch((error) => {
         if (error.code === 'auth/popup-closed-by-user') {
@@ -78,14 +108,20 @@ export class AuthService {
     return from(promise);
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.loggedIn.asObservable();
-  }
-
+  // Logout method with analytics
   logout(): Promise<void> {
     return signOut(this.firebaseAuth).then(() => {
       this.loggedIn.next(false);
+
+      // Log a 'logout' event in Analytics
+      logEvent(this.analytics, 'logout', {
+        uid: this.firebaseAuth.currentUser?.uid,
+      });
     });
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    return this.loggedIn.asObservable();
   }
 
   getCurrentUser(): Observable<User | null> {
